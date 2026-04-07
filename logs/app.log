@@ -83,3 +83,23 @@
 {"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 05:48:18"}
 {"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 05:48:18"}
 {"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T02:48:18.344Z","timestamp":"2026-04-07 05:48:18"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 05:52:28"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 05:52:28"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T02:52:28.187Z","timestamp":"2026-04-07 05:52:28"}
+{"level":"info","message":"Autentificare reușită","role":"voter","timestamp":"2026-04-07 05:53:55","userId":"92ae97fc-193f-4918-9f4b-29bdeab18b71"}
+{"level":"info","message":"Autentificare reușită","role":"voter","timestamp":"2026-04-07 05:54:22","userId":"24b0d441-f945-4982-855d-73de1489dc80"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 05:57:24"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 05:57:24"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T02:57:24.856Z","timestamp":"2026-04-07 05:57:24"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 06:04:11"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 06:04:11"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T03:04:11.387Z","timestamp":"2026-04-07 06:04:11"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 06:21:55"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 06:21:55"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T03:21:55.915Z","timestamp":"2026-04-07 06:21:55"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 06:25:04"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 06:25:04"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T03:25:04.193Z","timestamp":"2026-04-07 06:25:04"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 06:43:07"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 06:43:07"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T03:43:07.849Z","timestamp":"2026-04-07 06:43:07"}
