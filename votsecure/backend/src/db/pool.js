@@ -13,17 +13,21 @@ const logger   = require("../audit/logger");
 
 // ─── Configurare pool ────────────────────────────────────────────────────────
 
-const pool = new Pool({
-  host:     process.env.DB_HOST     || "localhost",
-  port:     parseInt(process.env.DB_PORT || "5432"),
-  database: process.env.DB_NAME     || "votsecure",
-  user:     process.env.DB_USER     || "votsecure_user",
-  password: process.env.DB_PASSWORD,
-  ssl:      process.env.DB_SSL === "true" ? { rejectUnauthorized: true } : false,
-  max:      20,           // conexiuni maxime în pool
-  idleTimeoutMillis:    30_000,
-  connectionTimeoutMillis: 5_000,
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+      }
+    : {
+        host:     process.env.DB_HOST     || "localhost",
+        port:     parseInt(process.env.DB_PORT || "5432"),
+        database: process.env.DB_NAME     || "votsecure",
+        user:     process.env.DB_USER     || "votsecure_user",
+        password: process.env.DB_PASSWORD,
+        ssl:      false,
+      }
+);
 
 // Loghează erorile de conexiune (nu aruncă excepții negestionate)
 pool.on("error", (err) => {
