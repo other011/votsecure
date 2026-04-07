@@ -10,6 +10,7 @@
  */
 
 require("dotenv").config({ path: "../config/.env" });
+require("dotenv").config(); // fallback pentru Railway
 
 const express     = require("express");
 const cors        = require("cors");
