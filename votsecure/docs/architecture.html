@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>VotSecure — Diagrame Arhitectură & UML</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0f; color: #e2e8f0; font-family: 'DM Sans', sans-serif; padding: 32px; }
+h1 { font-family: 'Playfair Display', serif; color: #fbbf24; font-size: 28px; margin-bottom: 8px; }
+h2 { font-family: 'Playfair Display', serif; color: #94a3b8; font-size: 18px; margin: 32px 0 16px; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+.subtitle { color: #475569; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 1px; margin-bottom: 32px; }
+.diagram { background: #111827; border: 1px solid #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px; overflow-x: auto; }
+svg text { font-family: 'IBM Plex Mono', monospace; }
+</style>
+</head>
+<body>
+<h1>⬡ VotSecure</h1>
+<div class="subtitle">DIAGRAME ARHITECTURĂ ȘI UML — Sistem Electoral Criptografic</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2>1. Diagramă Arhitectură Sistem</h2>
+<div class="diagram">
+<svg width="860" height="460" viewBox="0 0 860 460">
+  <!-- Background layers -->
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowY" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+
+  <!-- Frontend layer -->
+  <rect x="10" y="10" width="200" height="440" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="110" y="32" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="bold">FRONTEND</text>
+  <text x="110" y="46" text-anchor="middle" fill="#475569" font-size="9">React.js · Vite</text>
+
+  <rect x="22" y="58" width="176" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f640"/>
+  <text x="110" y="73" text-anchor="middle" fill="#93c5fd" font-size="10">RegisterForm.jsx</text>
+  <text x="110" y="85" text-anchor="middle" fill="#475569" font-size="9">Validare CNP (frontend)</text>
+
+  <rect x="22" y="100" width="176" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f640"/>
+  <text x="110" y="115" text-anchor="middle" fill="#93c5fd" font-size="10">LoginForm.jsx</text>
+  <text x="110" y="127" text-anchor="middle" fill="#475569" font-size="9">Autentificare JWT</text>
+
+  <rect x="22" y="142" width="176" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f640"/>
+  <text x="110" y="157" text-anchor="middle" fill="#93c5fd" font-size="10">VoteScreen.jsx</text>
+  <text x="110" y="169" text-anchor="middle" fill="#475569" font-size="9">Exprimare vot</text>
+
+  <rect x="22" y="184" width="176" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f640"/>
+  <text x="110" y="199" text-anchor="middle" fill="#93c5fd" font-size="10">ResultsScreen.jsx</text>
+  <text x="110" y="211" text-anchor="middle" fill="#475569" font-size="9">Rezultate alegere</text>
+
+  <rect x="22" y="226" width="176" height="36" rx="6" fill="#1e3a5f" stroke="#3b82f640"/>
+  <text x="110" y="241" text-anchor="middle" fill="#93c5fd" font-size="10">AdminPanel.jsx</text>
+  <text x="110" y="253" text-anchor="middle" fill="#475569" font-size="9">Gestionare alegeri</text>
+
+  <rect x="22" y="268" width="176" height="36" rx="6" fill="#0f2a0f" stroke="#22c55e40"/>
+  <text x="110" y="283" text-anchor="middle" fill="#86efac" font-size="10">cnpValidator.js</text>
+  <text x="110" y="295" text-anchor="middle" fill="#475569" font-size="9">Validare client-side</text>
+
+  <rect x="22" y="310" width="176" height="36" rx="6" fill="#0f2a0f" stroke="#22c55e40"/>
+  <text x="110" y="325" text-anchor="middle" fill="#86efac" font-size="10">apiClient.js</text>
+  <text x="110" y="337" text-anchor="middle" fill="#475569" font-size="9">Fetch + JWT header</text>
+
+  <!-- Backend layer -->
+  <rect x="230" y="10" width="250" height="440" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="355" y="32" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">BACKEND</text>
+  <text x="355" y="46" text-anchor="middle" fill="#475569" font-size="9">Node.js · Express</text>
+
+  <rect x="242" y="58" width="226" height="30" rx="6" fill="#2a1f0f" stroke="#f59e0b40"/>
+  <text x="355" y="77" text-anchor="middle" fill="#fcd34d" font-size="10">server.js — Helmet · CORS · RateLimit</text>
+
+  <rect x="242" y="94" width="226" height="30" rx="6" fill="#2a1f0f" stroke="#f59e0b40"/>
+  <text x="355" y="113" text-anchor="middle" fill="#fcd34d" font-size="10">authMiddleware.js — JWT Verify</text>
+
+  <rect x="242" y="130" width="108" height="36" rx="6" fill="#1a1a2e" stroke="#a78bfa40"/>
+  <text x="296" y="145" text-anchor="middle" fill="#c4b5fd" font-size="10">auth.routes.js</text>
+  <text x="296" y="157" text-anchor="middle" fill="#475569" font-size="9">register / login</text>
+
+  <rect x="360" y="130" width="108" height="36" rx="6" fill="#1a1a2e" stroke="#a78bfa40"/>
+  <text x="414" y="145" text-anchor="middle" fill="#c4b5fd" font-size="10">vote.routes.js</text>
+  <text x="414" y="157" text-anchor="middle" fill="#475569" font-size="9">cast / results</text>
+
+  <rect x="242" y="172" width="226" height="30" rx="6" fill="#1a1a2e" stroke="#a78bfa40"/>
+  <text x="355" y="191" text-anchor="middle" fill="#c4b5fd" font-size="10">admin.routes.js — elections / users / audit</text>
+
+  <rect x="242" y="208" width="108" height="40" rx="6" fill="#0f2020" stroke="#10b98140"/>
+  <text x="296" y="223" text-anchor="middle" fill="#6ee7b7" font-size="10">authService.js</text>
+  <text x="296" y="235" text-anchor="middle" fill="#475569" font-size="9">Register · Login</text>
+  <text x="296" y="245" text-anchor="middle" fill="#475569" font-size="9">JWT · Lockout</text>
+
+  <rect x="360" y="208" width="108" height="40" rx="6" fill="#0f2020" stroke="#10b98140"/>
+  <text x="414" y="223" text-anchor="middle" fill="#6ee7b7" font-size="10">voteService.js</text>
+  <text x="414" y="235" text-anchor="middle" fill="#475569" font-size="9">castVote · tally</text>
+  <text x="414" y="245" text-anchor="middle" fill="#475569" font-size="9">verifyReceipt</text>
+
+  <rect x="242" y="254" width="226" height="36" rx="6" fill="#200f0f" stroke="#ef444440"/>
+  <text x="355" y="269" text-anchor="middle" fill="#fca5a5" font-size="10">cryptoService.js</text>
+  <text x="355" y="281" text-anchor="middle" fill="#475569" font-size="9">SHA-256 · AES-256-GCM · HMAC · CSPRNG</text>
+
+  <rect x="242" y="296" width="108" height="36" rx="6" fill="#200f0f" stroke="#ef444440"/>
+  <text x="296" y="311" text-anchor="middle" fill="#fca5a5" font-size="10">cnpValidator.js</text>
+  <text x="296" y="323" text-anchor="middle" fill="#475569" font-size="9">Server-side</text>
+
+  <rect x="360" y="296" width="108" height="36" rx="6" fill="#200f0f" stroke="#ef444440"/>
+  <text x="414" y="311" text-anchor="middle" fill="#fca5a5" font-size="10">auditService.js</text>
+  <text x="414" y="323" text-anchor="middle" fill="#475569" font-size="9">audit_log BD</text>
+
+  <rect x="242" y="338" width="226" height="36" rx="6" fill="#0f172a" stroke="#64748b40"/>
+  <text x="355" y="353" text-anchor="middle" fill="#94a3b8" font-size="10">blockchainService.js</text>
+  <text x="355" y="365" text-anchor="middle" fill="#475569" font-size="9">ethers.js · castVote · verifyVote</text>
+
+  <rect x="242" y="380" width="226" height="36" rx="6" fill="#0f172a" stroke="#64748b40"/>
+  <text x="355" y="395" text-anchor="middle" fill="#94a3b8" font-size="10">db/pool.js</text>
+  <text x="355" y="407" text-anchor="middle" fill="#475569" font-size="9">pg Pool · query · withTransaction</text>
+
+  <!-- PostgreSQL -->
+  <rect x="500" y="10" width="170" height="200" rx="10" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="585" y="32" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="bold">PostgreSQL</text>
+  <text x="585" y="46" text-anchor="middle" fill="#475569" font-size="9">Off-chain storage</text>
+
+  <rect x="512" y="56" width="146" height="22" rx="4" fill="#0f2a0f" stroke="#22c55e30"/>
+  <text x="585" y="70" text-anchor="middle" fill="#86efac" font-size="10">users (CNP · hash)</text>
+
+  <rect x="512" y="84" width="146" height="22" rx="4" fill="#0f2a0f" stroke="#22c55e30"/>
+  <text x="585" y="98" text-anchor="middle" fill="#86efac" font-size="10">elections</text>
+
+  <rect x="512" y="112" width="146" height="22" rx="4" fill="#0f2a0f" stroke="#22c55e30"/>
+  <text x="585" y="126" text-anchor="middle" fill="#86efac" font-size="10">candidates</text>
+
+  <rect x="512" y="140" width="146" height="22" rx="4" fill="#0f2a0f" stroke="#22c55e30"/>
+  <text x="585" y="154" text-anchor="middle" fill="#86efac" font-size="10">votes (AES criptat)</text>
+
+  <rect x="512" y="168" width="146" height="22" rx="4" fill="#0f2a0f" stroke="#22c55e30"/>
+  <text x="585" y="182" text-anchor="middle" fill="#86efac" font-size="10">audit_log (imutabil)</text>
+
+  <!-- Ethereum -->
+  <rect x="500" y="230" width="170" height="220" rx="10" fill="#0f172a" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="585" y="252" text-anchor="middle" fill="#fbbf24" font-size="11" font-weight="bold">Ethereum</text>
+  <text x="585" y="266" text-anchor="middle" fill="#475569" font-size="9">Hardhat · Solidity 0.8</text>
+
+  <rect x="512" y="278" width="146" height="60" rx="6" fill="#2a1f0f" stroke="#fbbf2440"/>
+  <text x="585" y="296" text-anchor="middle" fill="#fcd34d" font-size="10">VotSecure.sol</text>
+  <text x="585" y="308" text-anchor="middle" fill="#475569" font-size="9">createElection()</text>
+  <text x="585" y="320" text-anchor="middle" fill="#475569" font-size="9">castVote(hash, token)</text>
+  <text x="585" y="332" text-anchor="middle" fill="#475569" font-size="9">verifyVote(hash)</text>
+
+  <rect x="512" y="348" width="146" height="30" rx="4" fill="#2a1f0f" stroke="#fbbf2440"/>
+  <text x="585" y="367" text-anchor="middle" fill="#fcd34d" font-size="9">On-chain: hash-uri voturi</text>
+
+  <rect x="512" y="384" width="146" height="30" rx="4" fill="#2a1f0f" stroke="#fbbf2440"/>
+  <text x="585" y="403" text-anchor="middle" fill="#fcd34d" font-size="9">Anti-replay: voterToken</text>
+
+  <!-- Hardhat -->
+  <rect x="690" y="230" width="155" height="110" rx="10" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="768" y="252" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="bold">Hardhat</text>
+  <text x="768" y="266" text-anchor="middle" fill="#475569" font-size="9">Dev · Test · Deploy</text>
+  <rect x="702" y="276" width="131" height="22" rx="4" fill="#2a1f0f" stroke="#f59e0b30"/>
+  <text x="768" y="290" text-anchor="middle" fill="#fcd34d" font-size="9">npx hardhat compile</text>
+  <rect x="702" y="304" width="131" height="22" rx="4" fill="#2a1f0f" stroke="#f59e0b30"/>
+  <text x="768" y="318" text-anchor="middle" fill="#fcd34d" font-size="9">npx hardhat test</text>
+
+  <!-- Arrows -->
+  <!-- Frontend → Backend (HTTPS) -->
+  <line x1="210" y1="200" x2="228" y2="200" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="219" y="195" text-anchor="middle" fill="#64748b" font-size="8">HTTPS</text>
+
+  <!-- Backend → PostgreSQL -->
+  <line x1="480" y1="100" x2="498" y2="100" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="489" y="95" text-anchor="middle" fill="#22c55e" font-size="8">pg</text>
+
+  <!-- Backend → Ethereum -->
+  <line x1="480" y1="360" x2="498" y2="340" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrowY)"/>
+  <text x="489" y="358" text-anchor="middle" fill="#fbbf24" font-size="8">ethers</text>
+
+  <!-- Ethereum → Hardhat -->
+  <line x1="670" y1="300" x2="688" y2="300" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2>2. Diagramă Use Case</h2>
+<div class="diagram">
+<svg width="820" height="380" viewBox="0 0 820 380">
+  <!-- Actor: Alegător -->
+  <ellipse cx="50" cy="80" rx="22" ry="22" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="50" y1="102" x2="50" y2="150" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="50" y1="120" x2="20" y2="140" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="50" y1="120" x2="80" y2="140" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="50" y1="150" x2="30" y2="175" stroke="#3b82f6" stroke-width="1.5"/>
+  <line x1="50" y1="150" x2="70" y2="175" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="50" y="195" text-anchor="middle" fill="#3b82f6" font-size="11">Alegător</text>
+
+  <!-- Actor: Admin -->
+  <ellipse cx="50" cy="280" rx="22" ry="22" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="50" y1="302" x2="50" y2="340" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="50" y1="318" x2="20" y2="338" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="50" y1="318" x2="80" y2="338" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="50" y1="340" x2="30" y2="365" stroke="#f59e0b" stroke-width="1.5"/>
+  <line x1="50" y1="340" x2="70" y2="365" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="50" y="378" text-anchor="middle" fill="#f59e0b" font-size="11">Admin</text>
+
+  <!-- System boundary -->
+  <rect x="110" y="10" width="690" height="360" rx="12" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="460" y="30" text-anchor="middle" fill="#475569" font-size="12" font-family="IBM Plex Mono">VotSecure System</text>
+
+  <!-- Use Cases - Alegător -->
+  <ellipse cx="270" cy="70" rx="110" ry="22" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="270" y="74" text-anchor="middle" fill="#93c5fd" font-size="11">UC1: Înregistrare cont</text>
+
+  <ellipse cx="270" cy="125" rx="110" ry="22" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="270" y="129" text-anchor="middle" fill="#93c5fd" font-size="11">UC2: Autentificare</text>
+
+  <ellipse cx="270" cy="180" rx="110" ry="22" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="270" y="184" text-anchor="middle" fill="#93c5fd" font-size="11">UC3: Exprimare vot</text>
+
+  <ellipse cx="270" cy="235" rx="110" ry="22" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="270" y="239" text-anchor="middle" fill="#93c5fd" font-size="11">UC4: Verificare chitanță</text>
+
+  <ellipse cx="270" cy="290" rx="110" ry="22" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="270" y="294" text-anchor="middle" fill="#93c5fd" font-size="11">UC5: Vizualizare rezultate</text>
+
+  <!-- Use Cases - Admin -->
+  <ellipse cx="560" cy="70" rx="120" ry="22" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="560" y="74" text-anchor="middle" fill="#fcd34d" font-size="11">UC6: Creare alegere</text>
+
+  <ellipse cx="560" cy="125" rx="120" ry="22" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="560" y="129" text-anchor="middle" fill="#fcd34d" font-size="11">UC7: Gestionare candidați</text>
+
+  <ellipse cx="560" cy="180" rx="120" ry="22" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="560" y="184" text-anchor="middle" fill="#fcd34d" font-size="11">UC8: Monitorizare alegători</text>
+
+  <ellipse cx="560" cy="235" rx="120" ry="22" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="560" y="239" text-anchor="middle" fill="#fcd34d" font-size="11">UC9: Închidere alegere</text>
+
+  <ellipse cx="560" cy="290" rx="120" ry="22" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="560" y="294" text-anchor="middle" fill="#fcd34d" font-size="11">UC10: Audit & Integritate</text>
+
+  <!-- Lines Alegator -->
+  <line x1="72" y1="90" x2="158" y2="70" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="72" y1="100" x2="158" y2="125" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="72" y1="110" x2="158" y2="180" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="72" y1="115" x2="158" y2="235" stroke="#3b82f6" stroke-width="1"/>
+  <line x1="72" y1="120" x2="158" y2="290" stroke="#3b82f6" stroke-width="1"/>
+
+  <!-- Lines Admin -->
+  <line x1="72" y1="295" x2="122" y2="235" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="300" x2="122" y2="290" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="270" x2="438" y2="70" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="275" x2="438" y2="125" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="280" x2="438" y2="180" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="285" x2="438" y2="235" stroke="#f59e0b" stroke-width="1"/>
+  <line x1="72" y1="290" x2="438" y2="290" stroke="#f59e0b" stroke-width="1"/>
+
+  <!-- includes -->
+  <line x1="380" y1="180" x2="435" y2="180" stroke="#64748b" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="408" y="175" text-anchor="middle" fill="#475569" font-size="9">«include»</text>
+  <ellipse cx="560" cy="345" rx="130" ry="22" fill="#0f2020" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="560" y="349" text-anchor="middle" fill="#86efac" font-size="11">UC11: Blockchain verify</text>
+  <line x1="560" y1="312" x2="560" y2="323" stroke="#64748b" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="590" y="320" fill="#475569" font-size="9">«include»</text>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2>3. Diagramă de Clasă (simplificată)</h2>
+<div class="diagram">
+<svg width="820" height="340" viewBox="0 0 820 340">
+  <!-- User class -->
+  <rect x="10" y="10" width="160" height="130" rx="6" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <rect x="10" y="10" width="160" height="28" rx="6" fill="#3b82f6"/>
+  <text x="90" y="29" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">User</text>
+  <line x1="10" y1="38" x2="170" y2="38" stroke="#3b82f660" stroke-width="1"/>
+  <text x="20" y="54" fill="#93c5fd" font-size="10">+ id: UUID</text>
+  <text x="20" y="68" fill="#93c5fd" font-size="10">+ name: String</text>
+  <text x="20" y="82" fill="#93c5fd" font-size="10">+ email: String (@vote.ro)</text>
+  <text x="20" y="96" fill="#93c5fd" font-size="10">+ cnp: String(13)</text>
+  <text x="20" y="110" fill="#93c5fd" font-size="10">+ passwordHash: String</text>
+  <text x="20" y="124" fill="#93c5fd" font-size="10">+ role: voter|admin</text>
+
+  <!-- Election class -->
+  <rect x="200" y="10" width="180" height="160" rx="6" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <rect x="200" y="10" width="180" height="28" rx="6" fill="#f59e0b"/>
+  <text x="290" y="29" text-anchor="middle" fill="#000" font-size="12" font-weight="bold">Election</text>
+  <line x1="200" y1="38" x2="380" y2="38" stroke="#f59e0b60" stroke-width="1"/>
+  <text x="210" y="54" fill="#fcd34d" font-size="10">+ id: UUID</text>
+  <text x="210" y="68" fill="#fcd34d" font-size="10">+ title: String</text>
+  <text x="210" y="82" fill="#fcd34d" font-size="10">+ type: uninominal|...</text>
+  <text x="210" y="96" fill="#fcd34d" font-size="10">+ status: pending|active|closed</text>
+  <text x="210" y="110" fill="#fcd34d" font-size="10">+ startTime: Timestamp</text>
+  <text x="210" y="124" fill="#fcd34d" font-size="10">+ endTime: Timestamp</text>
+  <text x="210" y="138" fill="#fcd34d" font-size="10">+ blockchainId: bytes32</text>
+  <text x="210" y="152" fill="#475569" font-size="9">+ createElection()</text>
+
+  <!-- Candidate -->
+  <rect x="410" y="10" width="160" height="110" rx="6" fill="#1a1a2e" stroke="#a78bfa" stroke-width="1.5"/>
+  <rect x="410" y="10" width="160" height="28" rx="6" fill="#a78bfa"/>
+  <text x="490" y="29" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Candidate</text>
+  <line x1="410" y1="38" x2="570" y2="38" stroke="#a78bfa60" stroke-width="1"/>
+  <text x="420" y="54" fill="#c4b5fd" font-size="10">+ id: UUID</text>
+  <text x="420" y="68" fill="#c4b5fd" font-size="10">+ electionId: UUID</text>
+  <text x="420" y="82" fill="#c4b5fd" font-size="10">+ name: String</text>
+  <text x="420" y="96" fill="#c4b5fd" font-size="10">+ party: String</text>
+  <text x="420" y="110" fill="#c4b5fd" font-size="10">+ position: Int</text>
+
+  <!-- Vote -->
+  <rect x="200" y="200" width="190" height="130" rx="6" fill="#200f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="200" y="200" width="190" height="28" rx="6" fill="#ef4444"/>
+  <text x="295" y="219" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Vote</text>
+  <line x1="200" y1="228" x2="390" y2="228" stroke="#ef444460" stroke-width="1"/>
+  <text x="210" y="244" fill="#fca5a5" font-size="10">+ id: UUID</text>
+  <text x="210" y="258" fill="#fca5a5" font-size="10">+ voterToken: String(64) ⚿</text>
+  <text x="210" y="272" fill="#fca5a5" font-size="10">+ encryptedPayload: Text</text>
+  <text x="210" y="286" fill="#fca5a5" font-size="10">+ voteHash: String(64)</text>
+  <text x="210" y="300" fill="#fca5a5" font-size="10">+ receiptCode: String(16)</text>
+  <text x="210" y="314" fill="#fca5a5" font-size="10">+ blockchainTx: String</text>
+
+  <!-- AuditLog -->
+  <rect x="420" y="140" width="160" height="110" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="420" y="140" width="160" height="28" rx="6" fill="#475569"/>
+  <text x="500" y="159" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">AuditLog</text>
+  <line x1="420" y1="168" x2="580" y2="168" stroke="#64748b60" stroke-width="1"/>
+  <text x="430" y="184" fill="#94a3b8" font-size="10">+ id: BigInt</text>
+  <text x="430" y="198" fill="#94a3b8" font-size="10">+ eventType: String</text>
+  <text x="430" y="212" fill="#94a3b8" font-size="10">+ userId: UUID</text>
+  <text x="430" y="226" fill="#94a3b8" font-size="10">+ detail: JSONB</text>
+  <text x="430" y="240" fill="#94a3b8" font-size="10">+ createdAt: Timestamp</text>
+
+  <!-- CryptoService -->
+  <rect x="610" y="10" width="195" height="200" rx="6" fill="#200f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="610" y="10" width="195" height="28" rx="6" fill="#ef4444"/>
+  <text x="707" y="29" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">CryptoService</text>
+  <line x1="610" y1="38" x2="805" y2="38" stroke="#ef444460" stroke-width="1"/>
+  <text x="620" y="54" fill="#475569" font-size="9">«static»</text>
+  <text x="620" y="68" fill="#fca5a5" font-size="10">+ hashPassword(p): hex</text>
+  <text x="620" y="82" fill="#fca5a5" font-size="10">+ verifyPassword(p,h): bool</text>
+  <text x="620" y="96" fill="#fca5a5" font-size="10">+ deriveVoterToken(id): hex</text>
+  <text x="620" y="110" fill="#fca5a5" font-size="10">+ encryptVote(payload): obj</text>
+  <text x="620" y="124" fill="#fca5a5" font-size="10">+ decryptVote(enc,n,tag): obj</text>
+  <text x="620" y="138" fill="#fca5a5" font-size="10">+ generateReceiptCode(): str</text>
+  <text x="620" y="152" fill="#fca5a5" font-size="10">+ randomHex(bytes): str</text>
+  <text x="620" y="166" fill="#fca5a5" font-size="10">+ sha256(input): hex</text>
+  <text x="620" y="185" fill="#475569" font-size="9">SHA-256 · AES-256-GCM · HMAC</text>
+  <text x="620" y="198" fill="#475569" font-size="9">CSPRNG · timingSafeEqual</text>
+
+  <!-- Relations -->
+  <!-- User creates Election -->
+  <line x1="170" y1="60" x2="200" y2="60" stroke="#64748b" stroke-width="1" stroke-dasharray="4,2"/>
+  <!-- Election has Candidates -->
+  <line x1="380" y1="50" x2="410" y2="50" stroke="#64748b" stroke-width="1"/>
+  <text x="395" y="45" text-anchor="middle" fill="#475569" font-size="9">1..*</text>
+  <!-- Election has Votes -->
+  <line x1="290" y1="170" x2="290" y2="200" stroke="#64748b" stroke-width="1"/>
+  <text x="300" y="190" fill="#475569" font-size="9">1..*</text>
+</svg>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<h2>4. Diagramă de Secvență — Flux Votare</h2>
+<div class="diagram">
+<svg width="820" height="380" viewBox="0 0 820 380">
+  <!-- Participants -->
+  <rect x="20" y="10" width="100" height="30" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="70" y="29" text-anchor="middle" fill="#93c5fd" font-size="11">Alegător</text>
+
+  <rect x="170" y="10" width="100" height="30" rx="4" fill="#1e3a5f" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="220" y="29" text-anchor="middle" fill="#93c5fd" font-size="11">Frontend</text>
+
+  <rect x="320" y="10" width="100" height="30" rx="4" fill="#2a1f0f" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="370" y="29" text-anchor="middle" fill="#fcd34d" font-size="11">Backend</text>
+
+  <rect x="470" y="10" width="100" height="30" rx="4" fill="#200f0f" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="520" y="29" text-anchor="middle" fill="#fca5a5" font-size="11">CryptoSvc</text>
+
+  <rect x="620" y="10" width="100" height="30" rx="4" fill="#0f2a0f" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="670" y="29" text-anchor="middle" fill="#86efac" font-size="11">PostgreSQL</text>
+
+  <rect x="720" y="10" width="90" height="30" rx="4" fill="#2a1f0f" stroke="#fbbf24" stroke-width="1.5"/>
+  <text x="765" y="29" text-anchor="middle" fill="#fcd34d" font-size="11">Ethereum</text>
+
+  <!-- Lifelines -->
+  <line x1="70"  y1="40" x2="70"  y2="370" stroke="#3b82f630" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="220" y1="40" x2="220" y2="370" stroke="#3b82f630" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="370" y1="40" x2="370" y2="370" stroke="#f59e0b30" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="520" y1="40" x2="520" y2="370" stroke="#ef444430" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="670" y1="40" x2="670" y2="370" stroke="#22c55e30" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="765" y1="40" x2="765" y2="370" stroke="#fbbf2430" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Sequence -->
+  <!-- 1 -->
+  <line x1="70" y1="70" x2="218" y2="70" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="145" y="66" text-anchor="middle" fill="#64748b" font-size="9">1. selectCandidate(id)</text>
+
+  <!-- 2 -->
+  <line x1="220" y1="95" x2="368" y2="95" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="295" y="91" text-anchor="middle" fill="#64748b" font-size="9">2. POST /vote/cast {electionId, candidateId}</text>
+
+  <!-- 3: verify JWT -->
+  <rect x="350" y="105" width="40" height="20" rx="3" fill="#2a1f0f" stroke="#f59e0b60"/>
+  <text x="370" y="119" text-anchor="middle" fill="#fcd34d" font-size="8">verifyJWT</text>
+
+  <!-- 4: deriveVoterToken -->
+  <line x1="370" y1="130" x2="518" y2="130" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="445" y="126" text-anchor="middle" fill="#64748b" font-size="9">3. deriveVoterToken(userId)</text>
+  <line x1="518" y1="145" x2="372" y2="145" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+  <text x="445" y="141" text-anchor="middle" fill="#64748b" font-size="9">↩ voterToken(anon)</text>
+
+  <!-- 5: check duplicate -->
+  <line x1="370" y1="160" x2="668" y2="160" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="520" y="156" text-anchor="middle" fill="#64748b" font-size="9">4. SELECT votes WHERE voter_token=? AND election=?</text>
+  <line x1="668" y1="175" x2="372" y2="175" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+  <text x="520" y="171" text-anchor="middle" fill="#64748b" font-size="9">↩ 0 rows (not voted yet)</text>
+
+  <!-- 6: encryptVote -->
+  <line x1="370" y1="195" x2="518" y2="195" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="445" y="191" text-anchor="middle" fill="#64748b" font-size="9">5. encryptVote(payload) AES-256-GCM</text>
+  <line x1="518" y1="210" x2="372" y2="210" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+  <text x="445" y="206" text-anchor="middle" fill="#64748b" font-size="9">↩ {encrypted, nonce, voteHash}</text>
+
+  <!-- 7: INSERT -->
+  <line x1="370" y1="228" x2="668" y2="228" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="520" y="224" text-anchor="middle" fill="#64748b" font-size="9">6. INSERT INTO votes (voter_token, encrypted, vote_hash)</text>
+  <line x1="668" y1="243" x2="372" y2="243" stroke="#22c55e" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+  <text x="520" y="239" text-anchor="middle" fill="#64748b" font-size="9">↩ OK (UNIQUE constraint enforced)</text>
+
+  <!-- 8: blockchain -->
+  <line x1="370" y1="260" x2="763" y2="260" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="567" y="256" text-anchor="middle" fill="#64748b" font-size="9">7. contract.castVote(electionId, voteHash, voterToken)</text>
+  <line x1="763" y1="275" x2="372" y2="275" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrow)"/>
+  <text x="567" y="271" text-anchor="middle" fill="#64748b" font-size="9">↩ txHash (on-chain confirmed)</text>
+
+  <!-- 9: receipt -->
+  <line x1="370" y1="295" x2="218" y2="295" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="295" y="291" text-anchor="middle" fill="#64748b" font-size="9">8. {receiptCode, voteHash, txHash}</text>
+
+  <!-- 10: show receipt -->
+  <line x1="220" y1="318" x2="72" y2="318" stroke="#22c55e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="145" y="314" text-anchor="middle" fill="#64748b" font-size="9">9. Afișare chitanță cu cod unic</text>
+</svg>
+</div>
+
+<h2>5. Structura Directorului de Proiect</h2>
+<div class="diagram" style="font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.8;color:#94a3b8;">
+<pre style="color:#94a3b8">
+votsecure/
+├── <span style="color:#fbbf24">blockchain/</span>                    ← Smart contracts Ethereum
+│   ├── contracts/
+│   │   └── <span style="color:#fcd34d">VotSecure.sol</span>        ← Contract principal (Solidity 0.8)
+│   ├── scripts/
+│   │   └── <span style="color:#fcd34d">deploy.js</span>            ← Script deploy Hardhat
+│   ├── test/
+│   │   └── <span style="color:#fcd34d">VotSecure.test.js</span>    ← Teste contract (Chai/Mocha)
+│   └── <span style="color:#fcd34d">hardhat.config.js</span>
+│
+├── <span style="color:#f59e0b">backend/</span>                       ← API Node.js/Express
+│   ├── src/
+│   │   ├── auth/
+│   │   │   └── <span style="color:#fcd34d">authService.js</span>   ← Register, Login, JWT
+│   │   ├── vote/
+│   │   │   └── <span style="color:#fcd34d">voteService.js</span>   ← castVote, tally, receipt
+│   │   ├── crypto/
+│   │   │   └── <span style="color:#fcd34d">cryptoService.js</span> ← SHA-256, AES-GCM, HMAC
+│   │   ├── validation/
+│   │   │   └── <span style="color:#fcd34d">cnpValidator.js</span>  ← Validare CNP (13 reguli)
+│   │   ├── blockchain/
+│   │   │   └── <span style="color:#fcd34d">blockchainService.js</span> ← ethers.js interface
+│   │   ├── db/
+│   │   │   └── <span style="color:#fcd34d">pool.js</span>          ← PostgreSQL connection pool
+│   │   ├── middleware/
+│   │   │   └── <span style="color:#fcd34d">authMiddleware.js</span> ← JWT verify, role check
+│   │   └── audit/
+│   │       ├── <span style="color:#fcd34d">logger.js</span>        ← Winston logging
+│   │       └── <span style="color:#fcd34d">auditService.js</span>  ← audit_log → PostgreSQL
+│   ├── routes/
+│   │   ├── <span style="color:#fcd34d">auth.routes.js</span>       ← POST /register, /login
+│   │   ├── <span style="color:#fcd34d">vote.routes.js</span>       ← POST /cast, GET /results
+│   │   └── <span style="color:#fcd34d">admin.routes.js</span>      ← Admin endpoints
+│   ├── tests/
+│   │   ├── unit/
+│   │   │   ├── <span style="color:#fcd34d">cnpValidator.test.js</span>
+│   │   │   └── <span style="color:#fcd34d">cryptoService.test.js</span>
+│   │   └── integration/
+│   │       └── <span style="color:#fcd34d">auth.test.js</span>
+│   ├── <span style="color:#fcd34d">server.js</span>                    ← Entry point Express
+│   └── <span style="color:#fcd34d">package.json</span>
+│
+├── <span style="color:#3b82f6">frontend/</span>                      ← React.js (Vite)
+│   └── src/
+│       ├── components/
+│       │   └── auth/
+│       │       └── <span style="color:#93c5fd">RegisterForm.jsx</span> ← CNP validation UI
+│       └── utils/
+│           ├── <span style="color:#93c5fd">cnpValidator.js</span>  ← Mirror validare backend
+│           └── <span style="color:#93c5fd">apiClient.js</span>     ← Fetch wrapper + JWT
+│
+└── <span style="color:#64748b">config/</span>                        ← Configurare globală
+    ├── <span style="color:#94a3b8">.env.example</span>                ← Template variabile mediu
+    ├── <span style="color:#94a3b8">schema.sql</span>                   ← Schema PostgreSQL
+    ├── contract-address.json        ← Generat după deploy
+    └── VotSecure.abi.json           ← Generat după compile
+</pre>
+</div>
+
+</body>
+</html>

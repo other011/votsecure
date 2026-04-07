@@ -1,0 +1,31 @@
+# Variabile de mediu — NICIODATĂ în git
+config/.env
+config/contract-address.json
+config/VotSecure.abi.json
+
+# Node modules
+node_modules/
+backend/node_modules/
+blockchain/node_modules/
+frontend/node_modules/
+
+# Hardhat artifacts
+blockchain/artifacts/
+blockchain/cache/
+
+# Logs
+logs/
+*.log
+
+# Build
+frontend/dist/
+frontend/build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
