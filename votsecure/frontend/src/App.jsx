@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API = "http://localhost:4000/api";
+const API = "https://votsecure-production.up.railway.app/api";
 
 function getToken() { return localStorage.getItem("vs_token"); }
 function saveToken(t) { localStorage.setItem("vs_token", t); }

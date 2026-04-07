@@ -76,12 +76,9 @@ async function register({ name, email, cnp, password }, ipAddress) {
     return result.rows[0];
   });
 
-// Trimite email de bun venit
-  try {
-    await emailService.sendWelcomeEmail({ to: user.email, name: user.name });
-  } catch (emailErr) {
-    logger.warn("Email bun venit eșuat", { error: emailErr.message });
-  }
+// Trimite email de bun venit (async - nu blochează înregistrarea)
+  emailService.sendWelcomeEmail({ to: user.email, name: user.name })
+    .catch(emailErr => logger.warn("Email bun venit eșuat", { error: emailErr.message }));
 
   await auditService.log("USER_REGISTERED", user.id, ipAddress, {
     email: user.email,
