@@ -34,7 +34,7 @@ app.use(helmet());
 
 // CORS — permite doar originea frontend-ului
 app.use(cors({
-  origin: ["http://localhost:5173", "http://localhost:3000", process.env.CORS_ORIGIN, "https://votsecure-production.up.railway.app"].filter(Boolean),  credentials: true,
+  origin: ["http://localhost:5173", "http://localhost:3000", process.env.CORS_ORIGIN, "https://votsecure-production.up.railway.app", "https://impartial-emotion-production-071b.up.railway.app"].filter(Boolean),
 }));
 
 // Parsare JSON body
