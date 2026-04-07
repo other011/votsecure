@@ -80,3 +80,6 @@
 {"level":"info","message":"Autentificare reușită","role":"voter","timestamp":"2026-04-07 05:29:18","userId":"f3ed1c9c-ae5e-48b7-a01f-437eecab6ba0"}
 {"level":"info","message":"Autentificare reușită","role":"voter","timestamp":"2026-04-07 05:29:26","userId":"92ae97fc-193f-4918-9f4b-29bdeab18b71"}
 {"blockchainTx":null,"level":"info","message":"Vot înregistrat","timestamp":"2026-04-07 05:29:31","voteHashPrefix":"78e077eb"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 05:48:18"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 05:48:18"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T02:48:18.344Z","timestamp":"2026-04-07 05:48:18"}
