@@ -8,7 +8,8 @@
  * Nu conține logică de business.
  */
 
-const { Pool } = require("pg");
+console.log("DATABASE_URL:", process.env.DATABASE_URL ? "SET" : "NOT SET");
+console.log("NODE_ENV:", process.env.NODE_ENV);
 const logger   = require("../audit/logger");
 
 // ─── Configurare pool ────────────────────────────────────────────────────────
