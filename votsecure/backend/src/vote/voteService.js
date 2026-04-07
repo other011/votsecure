@@ -126,20 +126,18 @@ async function castVote({ electionId, candidateId }, userId, ipAddress) {
   }
 
   // 9. Trimite email de confirmare (async)// Trimite email de confirmare
-  try {
-    const userResult = await query(
-      `SELECT name, email FROM users WHERE id = $1`, [userId]
-    );
-    if (userResult.rowCount > 0) {
-      const { name, email } = userResult.rows[0];
-      await emailService.sendVoteConfirmation({
-        to: email, name, receiptCode, voteHash, electionTitle: election.title || electionId,
-      });
-    }
-  } catch (emailErr) {
-    logger.warn("Email confirmare vot eșuat", { error: emailErr.message });
-  }
-  
+  // Trimite email de confirmare (async - nu blochează votarea)
+  query(`SELECT name, email FROM users WHERE id = $1`, [userId])
+    .then(userResult => {
+      if (userResult.rowCount > 0) {
+        const { name, email } = userResult.rows[0];
+        emailService.sendVoteConfirmation({
+          to: email, name, receiptCode, voteHash, electionTitle: election.title || electionId,
+        }).catch(emailErr => logger.warn("Email confirmare vot eșuat", { error: emailErr.message }));
+      }
+    })
+    .catch(err => logger.warn("Query email vot eșuat", { error: err.message }));
+
   await auditService.log("VOTE_CAST", userId, ipAddress, {
     electionId,
     voterTokenPrefix: voterToken.slice(0, 8) + "...",
