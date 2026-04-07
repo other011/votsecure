@@ -77,9 +77,12 @@ async function register({ name, email, cnp, password }, ipAddress) {
   });
 
 // Trimite email de bun venit (async - nu blochează înregistrarea)
+  // Trimite email de bun venit (async - nu blochează înregistrarea)
+  logger.info("Trimitere email bun venit", { email: user.email });
   emailService.sendWelcomeEmail({ to: user.email, name: user.name })
+    .then(() => logger.info("Email bun venit trimis cu succes", { email: user.email }))
     .catch(emailErr => logger.warn("Email bun venit eșuat", { error: emailErr.message }));
-
+    
   await auditService.log("USER_REGISTERED", user.id, ipAddress, {
     email: user.email,
     name: user.name,
