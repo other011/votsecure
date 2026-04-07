@@ -1,18 +1,7 @@
-/**
- * backend/src/db/pool.js
- * ─────────────────────────────────────────────────────────────────────────────
- * Modul de conexiune la PostgreSQL folosind `pg` (node-postgres).
- * Exportă un Pool reutilizabil și o funcție `query` cu logging integrat.
- *
- * Responsabilitate: EXCLUSIV gestiunea conexiunii la baza de date.
- * Nu conține logică de business.
- */
-
-console.log("DATABASE_URL:", process.env.DATABASE_URL ? "SET" : "NOT SET");
-console.log("NODE_ENV:", process.env.NODE_ENV);
+const { Pool } = require("pg");
 const logger   = require("../audit/logger");
 
-// ─── Configurare pool ────────────────────────────────────────────────────────
+console.log("DATABASE_URL:", process.env.DATABASE_URL ? "SET" : "NOT SET");
 
 const pool = new Pool(
   process.env.DATABASE_URL
@@ -30,19 +19,10 @@ const pool = new Pool(
       }
 );
 
-// Loghează erorile de conexiune (nu aruncă excepții negestionate)
 pool.on("error", (err) => {
   logger.error("Pool PostgreSQL — eroare neașteptată", { error: err.message });
 });
 
-// ─── Funcție wrapper cu logging ──────────────────────────────────────────────
-
-/**
- * Execută o interogare parametrizată.
- * @param {string}   text    - Interogare SQL cu parametri $1, $2, ...
- * @param {any[]}    params  - Valorile parametrilor
- * @returns {Promise<import('pg').QueryResult>}
- */
 async function query(text, params = []) {
   const start = Date.now();
   try {
@@ -56,10 +36,6 @@ async function query(text, params = []) {
   }
 }
 
-/**
- * Execută mai multe interogări într-o tranzacție atomică.
- * @param {Function} fn - Funcție async care primește clientul și execută query-uri
- */
 async function withTransaction(fn) {
   const client = await pool.connect();
   try {
@@ -75,9 +51,6 @@ async function withTransaction(fn) {
   }
 }
 
-/**
- * Verifică conexiunea la baza de date.
- */
 async function healthCheck() {
   const result = await query("SELECT NOW() AS time, version() AS version");
   return result.rows[0];
