@@ -25,6 +25,7 @@ const voteRoutes  = require("./routes/vote.routes");
 const adminRoutes = require("./routes/admin.routes");
 
 const app  = express();
+app.set("trust proxy", 1);
 const PORT = process.env.PORT || 4000;
 
 // ─── Middleware global ────────────────────────────────────────────────────────

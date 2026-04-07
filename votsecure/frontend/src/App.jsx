@@ -294,14 +294,15 @@ export default function App() {
                     <div style={{fontSize:11,color:"#475569",fontFamily:"IBM Plex Mono"}}>{el.type} · {el.candidate_count} candidați</div>
                     {el.description && <div style={{fontSize:12,color:"#64748b",marginTop:4}}>{el.description}</div>}
                   </div>
-                  <StatusPill status={el.status}/>
+                    <StatusPill status={el.status} endTime={el.end_time}/>
                 </div>
                 <div style={{display:"flex",gap:24,marginBottom:14}}>
                   <TimeInfo label="Deschidere" value={new Date(el.start_time).toLocaleString("ro-RO")}/>
                   <TimeInfo label="Închidere" value={new Date(el.end_time).toLocaleString("ro-RO")}/>
                 </div>
                 <div style={{display:"flex",gap:8}}>
-                  {el.status==="active" && <button style={{...S.primaryBtn,width:"auto",padding:"10px 20px",marginTop:0}} onClick={()=>{loadElection(el.id);setScreen("vote")}}>Votează →</button>}
+                  {el.status==="active" && new Date(el.end_time) > new Date() && <button style={{...S.primaryBtn,width:"auto",padding:"10px 20px",marginTop:0}} onClick={()=>{loadElection(el.id);setScreen("vote")}}>Votează →</button>}
+                  {el.status==="active" && new Date(el.end_time) < new Date() && <div style={{color:"#f97316",fontSize:12,fontFamily:"IBM Plex Mono"}}>⏱ Perioada de vot a expirat</div>}
                   {el.status==="closed" && <button style={S.secondaryBtn} onClick={()=>{loadResults(el.id);setScreen("results")}}>Vezi rezultate</button>}
                 </div>
               </div>
@@ -457,7 +458,7 @@ export default function App() {
                         <div style={{color:"#e2e8f0",fontSize:14,fontFamily:"Playfair Display",marginBottom:2}}>{el.title}</div>
                         <div style={{color:"#475569",fontSize:11,fontFamily:"IBM Plex Mono"}}>{el.type} · {el.candidate_count} candidați</div>
                       </div>
-                      <StatusPill status={el.status}/>
+                      <StatusPill status={el.status} endTime={el.end_time}/>
                     </div>
                     <div style={{display:"flex",gap:16,marginBottom:10}}>
                       <TimeInfo label="Deschidere" value={new Date(el.start_time).toLocaleString("ro-RO")}/>
@@ -596,9 +597,15 @@ function NavBtn({children,active,onClick}){
   return <button onClick={onClick} style={{background:active?"rgba(251,191,36,0.1)":"transparent",color:active?"#fbbf24":"#64748b",border:`1px solid ${active?"rgba(251,191,36,0.3)":"transparent"}`,borderRadius:6,padding:"6px 12px",fontSize:12,fontWeight:500,transition:"all 0.2s"}}>{children}</button>;
 }
 
-function StatusPill({status}){
-  const cfg={active:{bg:"#14532d",color:"#22c55e",label:"● ACTIV"},closed:{bg:"#7f1d1d",color:"#ef4444",label:"■ ÎNCHIS"},pending:{bg:"#1e293b",color:"#94a3b8",label:"◌ INACTIV"}};
-  const c=cfg[status]||cfg.pending;
+function StatusPill({status, endTime}){
+  const expired = status === "active" && endTime && new Date(endTime) < new Date();
+  const cfg={
+    active:{bg:"#14532d",color:"#22c55e",label:"● ACTIV"},
+    expired:{bg:"#7f1d1d",color:"#f97316",label:"⏱ EXPIRAT"},
+    closed:{bg:"#7f1d1d",color:"#ef4444",label:"■ ÎNCHIS"},
+    pending:{bg:"#1e293b",color:"#94a3b8",label:"◌ INACTIV"}
+  };
+  const c = expired ? cfg.expired : cfg[status] || cfg.pending;
   return <span style={{background:c.bg,color:c.color,fontSize:10,fontFamily:"IBM Plex Mono",padding:"3px 8px",borderRadius:99,letterSpacing:1,fontWeight:600}}>{c.label}</span>;
 }
 
