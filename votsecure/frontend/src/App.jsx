@@ -195,6 +195,14 @@ export default function App() {
     catch (e) { notify(e.message, "error"); }
   }
 
+  async function handleArchiveElection(id) {
+    try {
+      await api("PATCH", `/admin/elections/${id}/archive`);
+      notify("Alegerea a fost arhivată și nu mai este vizibilă pentru alegători.", "success");
+      loadElections(); loadAdminData();
+    } catch (e) { notify(e.message, "error"); }
+  }
+
   return (
     <div style={S.root}>
       <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -470,7 +478,12 @@ export default function App() {
                           Închide alegerea
                         </button>
                       )}
-                      <button style={{...S.secondaryBtn,fontSize:12}} onClick={()=>{loadResults(el.id);setScreen("results")}}>Rezultate</button>
+                      <button style={{...S.secondaryBtn,fontSize:12}} onClick={()=>{loadResults(el.id);setScreen("results")}}>Rezultate</button>{el.status==="closed" && (
+                      <button style={{...S.secondaryBtn,fontSize:12,borderColor:"#475569",color:"#475569"}}
+                        onClick={()=>handleArchiveElection(el.id)}>
+                        📦 Arhivează
+                      </button>
+                    )}
                     </div>
                   </div>
                 ))}

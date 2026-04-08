@@ -174,4 +174,23 @@ router.get("/stats", async (req, res) => {
   }
 });
 
+// ─── PATCH /api/admin/elections/:id/archive ──────────────────────────────────
+router.patch("/elections/:id/archive", async (req, res) => {
+  try {
+    const result = await query(
+      `UPDATE elections SET archived = true WHERE id = $1 AND status = 'closed' RETURNING id, title`,
+      [req.params.id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(400).json({ error: "Alegerea nu există sau nu este închisă. Doar alegerile închise pot fi arhivate." });
+    }
+    await auditService.log("ELECTION_ARCHIVED", req.user.id, extractIp(req), {
+      electionId: req.params.id, title: result.rows[0].title,
+    });
+    return res.status(200).json({ message: "Alegerea a fost arhivată." });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+});
+
 module.exports = router;

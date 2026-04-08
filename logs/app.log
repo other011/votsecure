@@ -121,3 +121,6 @@
 {"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-07 08:25:46"}
 {"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-07 08:25:46"}
 {"level":"info","message":"PostgreSQL conectat","time":"2026-04-07T05:25:46.298Z","timestamp":"2026-04-07 08:25:46"}
+{"level":"warn","message":"Blockchain: fișierele contract-address.json / VotSecure.abi.json lipsesc. Deploy contractul mai întâi.","timestamp":"2026-04-08 20:34:16"}
+{"level":"info","message":"VotSecure backend pornit pe portul 4000","timestamp":"2026-04-08 20:34:16"}
+{"level":"info","message":"PostgreSQL conectat","time":"2026-04-08T17:34:17.128Z","timestamp":"2026-04-08 20:34:17"}
