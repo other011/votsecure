@@ -193,4 +193,47 @@ router.patch("/elections/:id/archive", async (req, res) => {
   }
 });
 
+// ─── DELETE /api/admin/elections/:id ─────────────────────────────────────────
+// Șterge complet o alegere: voturi + candidați + alegerea în sine.
+router.delete("/elections/:id", async (req, res) => {
+  try {
+    // Verifică dacă alegerea există și ia datele pentru audit
+    const elRes = await query(
+      `SELECT id, title, blockchain_id FROM elections WHERE id = $1`,
+      [req.params.id]
+    );
+    if (elRes.rowCount === 0) {
+      return res.status(404).json({ error: "Alegerea nu există." });
+    }
+    const election = elRes.rows[0];
+
+    // Numără voturile (pentru log)
+    const votesCountRes = await query(
+      `SELECT COUNT(*) FROM votes WHERE election_id = $1`,
+      [req.params.id]
+    );
+    const votesDeleted = parseInt(votesCountRes.rows[0].count);
+
+    // Ștergere în cascadă, în ordinea corectă (FK constraints):
+    // 1. voturile, 2. candidații, 3. alegerea
+    await query(`DELETE FROM votes WHERE election_id = $1`, [req.params.id]);
+    await query(`DELETE FROM candidates WHERE election_id = $1`, [req.params.id]);
+    await query(`DELETE FROM elections WHERE id = $1`, [req.params.id]);
+
+    await auditService.log("ELECTION_DELETED", req.user.id, extractIp(req), {
+      electionId: election.id,
+      title: election.title,
+      blockchainId: election.blockchain_id,
+      votesDeleted,
+    });
+
+    return res.status(200).json({
+      message: "Alegerea a fost ștearsă definitiv.",
+      deleted: { electionId: election.id, votesDeleted },
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
