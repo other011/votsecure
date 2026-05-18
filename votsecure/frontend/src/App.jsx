@@ -202,6 +202,21 @@ export default function App() {
       loadElections(); loadAdminData();
     } catch (e) { notify(e.message, "error"); }
   }
+  
+  async function handleDeleteElection(id, title) {
+    const ok = window.confirm(
+      `Sigur doriți să ștergeți DEFINITIV alegerea "${title}"?\n\n` +
+      `Această acțiune este IREVERSIBILĂ. Se vor șterge:\n` +
+      `• alegerea\n• toți candidații\n• toate voturile înregistrate\n\n` +
+      `Înregistrarea pe blockchain (dacă există) rămâne, fiind imutabilă.`
+    );
+    if (!ok) return;
+    try {
+      const d = await api("DELETE", `/admin/elections/${id}`);
+      notify(d.message || "Alegerea a fost ștearsă definitiv.", "success");
+      loadElections(); loadAdminData();
+    } catch (e) { notify(e.message, "error"); }
+  }
 
   return (
     <div style={S.root}>
@@ -484,6 +499,10 @@ export default function App() {
                         📦 Arhivează
                       </button>
                     )}
+                    <button style={{...S.secondaryBtn,fontSize:12,borderColor:"#7f1d1d",color:"#ef4444"}}
+                        onClick={()=>handleDeleteElection(el.id, el.title)}>
+                        🗑 Șterge definitiv
+                      </button>
                     </div>
                   </div>
                 ))}
