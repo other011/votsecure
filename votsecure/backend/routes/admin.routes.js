@@ -236,4 +236,60 @@ router.delete("/elections/:id", async (req, res) => {
   }
 });
 
+// ─── DELETE /api/admin/voters/:id ────────────────────────────────────────────
+// Șterge un alegător, doar dacă nu a votat sau a votat doar în alegeri arhivate.
+router.delete("/voters/:id", async (req, res) => {
+  try {
+    // Verifică dacă userul există și e voter
+    const userRes = await query(
+      `SELECT id, name, email, role FROM users WHERE id = $1`,
+      [req.params.id]
+    );
+    if (userRes.rowCount === 0) {
+      return res.status(404).json({ error: "Alegătorul nu există." });
+    }
+    const voter = userRes.rows[0];
+    if (voter.role === "admin") {
+      return res.status(403).json({ error: "Nu poți șterge un cont de administrator." });
+    }
+
+    // Derivă voter_token-ul pentru a verifica voturile (anonimizate prin hash)
+    const cryptoSvc = require("../src/crypto/cryptoService");
+    const voterToken = cryptoSvc.deriveVoterToken(voter.id);
+
+    // Caută voturile alegătorului în alegeri NE-arhivate
+    const blockingVotes = await query(
+      `SELECT DISTINCT e.id, e.title, e.status
+         FROM votes v
+         JOIN elections e ON e.id = v.election_id
+        WHERE v.voter_token = $1
+          AND e.archived IS NOT TRUE`,
+      [voterToken]
+    );
+
+    if (blockingVotes.rowCount > 0) {
+      return res.status(409).json({
+        error: "Alegătorul a votat în alegeri ne-arhivate. Arhivați mai întâi alegerile respective.",
+        blockingElections: blockingVotes.rows,
+      });
+    }
+
+    // Ok — putem șterge. Voturile din alegeri arhivate rămân (anonime, doar tokenul),
+    // ca să nu se altereze rezultatele istorice.
+    await query(`DELETE FROM users WHERE id = $1`, [req.params.id]);
+
+    await auditService.log("VOTER_DELETED", req.user.id, extractIp(req), {
+      deletedVoterId: voter.id,
+      deletedVoterName: voter.name,
+      deletedVoterEmail: voter.email,
+    });
+
+    return res.status(200).json({
+      message: `Alegătorul ${voter.name} a fost șters.`,
+    });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

@@ -45,17 +45,20 @@ router.post("/cast", authenticate, requireVoter, async (req, res) => {
 // ─── GET /api/vote/elections ─────────────────────────────────────────────────
 router.get("/elections", authenticate, async (req, res) => {
   try {
+    const isAdmin = req.user.role === "admin";
     const result = await query(
       `SELECT
          e.id, e.title, e.description, e.type, e.status,
-         e.start_time, e.end_time, e.blockchain_id,
+         e.start_time, e.end_time, e.blockchain_id, e.archived,
          COUNT(c.id) AS candidate_count,
          u.name AS created_by_name
        FROM elections e
        LEFT JOIN candidates c ON c.election_id = e.id
        LEFT JOIN users u ON u.id = e.created_by
+       WHERE ($1::boolean OR e.archived IS NOT TRUE)
        GROUP BY e.id, u.name
-       ORDER BY e.start_time DESC`
+       ORDER BY e.start_time DESC`,
+      [isAdmin]
     );
     return res.status(200).json({ elections: result.rows });
   } catch (err) {
