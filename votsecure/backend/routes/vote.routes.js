@@ -130,4 +130,31 @@ router.post("/verify", authenticate, async (req, res) => {
   }
 });
 
+// ─── GET /api/vote/my-receipts ───────────────────────────────────────────────
+// Returnează toate chitanțele alegătorului curent.
+// Funcționează indiferent de statusul alegerii (activă/închisă/arhivată).
+// Chitanța dispare doar dacă alegerea e ștearsă complet din DB.
+router.get("/my-receipts", authenticate, requireVoter, async (req, res) => {
+  try {
+    const crypto = require("../src/crypto/cryptoService");
+    const voterToken = crypto.deriveVoterToken(req.user.id);
+
+    const result = await query(
+      `SELECT
+         v.receipt_code,
+         v.created_at AS voted_at,
+         e.title AS election_title
+       FROM votes v
+       JOIN elections e ON e.id = v.election_id
+       WHERE v.voter_token = $1
+       ORDER BY v.created_at DESC`,
+      [voterToken]
+    );
+
+    return res.status(200).json({ receipts: result.rows });
+  } catch (err) {
+    return res.status(500).json({ error: "Eroare internă." });
+  }
+});
+
 module.exports = router;

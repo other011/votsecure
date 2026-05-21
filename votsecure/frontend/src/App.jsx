@@ -47,6 +47,7 @@ export default function App() {
   const [hasVoted, setHasVoted] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [receipt, setReceipt] = useState(null);
+  const [myReceipts, setMyReceipts] = useState([]);
   const [results, setResults] = useState(null);
   const [auditLog, setAuditLog] = useState([]);
   const [stats, setStats] = useState(null);
@@ -69,13 +70,17 @@ export default function App() {
       api("GET", "/auth/me").then(data => {
         setUser(data.user);
         if (data.user.role === "admin") { setScreen("admin"); loadAdminData(); loadElections(); }
-        else { setScreen("dashboard"); loadElections(); }
-      }).catch(() => { clearToken(); setScreen("login"); });
+        else { setScreen("dashboard"); loadElections(); loadMyReceipts(); }      }).catch(() => { clearToken(); setScreen("login"); });
     }
   }, []);
 
   async function loadElections() {
     try { const d = await api("GET", "/vote/elections"); setElections(d.elections || []); } catch {}
+  }
+
+  async function loadMyReceipts() {
+    try { const d = await api("GET", "/vote/my-receipts"); setMyReceipts(d.receipts || []); }
+    catch (e) { notify(e.message, "error"); }
   }
 
   async function loadElection(id) {
@@ -110,8 +115,7 @@ export default function App() {
       saveToken(d.token); setUser(d.user);
       notify(`Bun venit, ${d.user.name}!`, "success");
       if (d.user.role === "admin") { setScreen("admin"); loadAdminData(); loadElections(); }
-      else { setScreen("dashboard"); loadElections(); }
-    } catch (e) { setAuthError(e.message); }
+      else { setScreen("dashboard"); loadElections(); loadMyReceipts(); }    } catch (e) { setAuthError(e.message); }
     finally { setLoading(false); }
   }
 
@@ -240,8 +244,8 @@ export default function App() {
           </div>
           <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
             {user.role==="voter" && <>
-              <NavBtn active={screen==="dashboard"} onClick={()=>{setScreen("dashboard");loadElections()}}>Acasă</NavBtn>
-              {receipt && <NavBtn active={screen==="receipt"} onClick={()=>setScreen("receipt")}>Chitanță</NavBtn>}
+              <NavBtn active={screen==="dashboard"} onClick={()=>{setScreen("dashboard");loadElections();loadMyReceipts()}}>Acasă</NavBtn>
+              <NavBtn active={screen==="myReceipts"} onClick={()=>{setScreen("myReceipts");loadMyReceipts()}}>Chitanțele mele</NavBtn>              {receipt && <NavBtn active={screen==="receipt"} onClick={()=>setScreen("receipt")}>Chitanță</NavBtn>}
             </>}
             {user.role==="admin" && <>
               <NavBtn active={screen==="admin"} onClick={()=>{setScreen("admin");loadAdminData();loadElections()}}>Admin</NavBtn>
@@ -330,6 +334,34 @@ export default function App() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+      {/* MY RECEIPTS */}
+        {screen==="myReceipts" && user?.role==="voter" && (
+          <div className="fu">
+            <h1 style={S.pageTitle}>Chitanțele mele</h1>
+            <div style={{background:"rgba(59,130,246,0.06)",border:"1px solid rgba(59,130,246,0.2)",borderRadius:8,padding:"10px 14px",fontSize:12,color:"#93c5fd",marginBottom:20}}>
+              ℹ Aici găsiți toate voturile dvs. Chitanțele rămân disponibile cât timp alegerea există în sistem.
+            </div>
+            {myReceipts.length===0 ? (
+              <div style={S.infoBox}>Nu aveți încă niciun vot înregistrat.</div>
+            ) : (
+              myReceipts.map((r,i)=>(
+                <div key={i} style={S.card}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:14,flexWrap:"wrap",gap:8}}>
+                    <div style={{fontFamily:"Playfair Display",fontSize:17,color:"#f1f5f9"}}>{r.election_title}</div>
+                    <div style={{color:"#94a3b8",fontSize:12,fontFamily:"IBM Plex Mono"}}>
+                      {new Date(r.voted_at).toLocaleString("ro-RO")}
+                    </div>
+                  </div>
+                  <div style={{background:"#0a0a0f",border:"1px solid #1e293b",borderRadius:10,padding:14}}>
+                    <div style={{color:"#475569",fontSize:10,fontFamily:"IBM Plex Mono",letterSpacing:1,marginBottom:6}}>COD DE VERIFICARE</div>
+                    <div style={{fontFamily:"IBM Plex Mono",fontSize:18,fontWeight:600,color:"#fbbf24",letterSpacing:2}}>{r.receipt_code}</div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         )}
 
