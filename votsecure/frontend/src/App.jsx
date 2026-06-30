@@ -564,11 +564,7 @@ export default function App() {
                 <Field label="Titlu alegere *" value={elForm.title} onChange={v=>setElForm(f=>({...f,title:v}))} placeholder="ex: Alegeri Studențești 2024"/>
                 <div style={{marginBottom:14}}>
                   <label style={S.label}>Tip alegere</label>
-                  <select style={{...S.input,cursor:"pointer"}} value={elForm.type} onChange={e=>setElForm(f=>({...f,type:e.target.value}))}>
-                    <option value="uninominal">Uninominal</option>
-                    <option value="multi-candidat">Multi-candidat</option>
-                    <option value="referendum">Referendum</option>
-                  </select>
+                  <div style={{...S.input, color:"#94a3b8"}}>Uninominal</div>
                 </div>
                 <div style={{marginBottom:14}}>
                   <label style={S.label}>Descriere (opțional)</label>
