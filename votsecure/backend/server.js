@@ -53,7 +53,7 @@ app.use(rateLimit({
 // Rate limiting strict pentru autentificare — 10 req/15 min per IP
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max:      10,
+  max:      100,
   message:  { error: "Prea multe încercări de autentificare." },
 });
 

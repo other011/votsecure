@@ -76,7 +76,6 @@ async function register({ name, email, cnp, password }, ipAddress) {
     return result.rows[0];
   });
 
-// Trimite email de bun venit (async - nu blochează înregistrarea)
   // Trimite email de bun venit (async - nu blochează înregistrarea)
   logger.info("Trimitere email bun venit", { email: user.email });
   emailService.sendWelcomeEmail({ to: user.email, name: user.name })

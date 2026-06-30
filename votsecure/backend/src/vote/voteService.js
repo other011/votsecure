@@ -35,7 +35,7 @@ const logger          = require("../audit/logger");
 async function castVote({ electionId, candidateId }, userId, ipAddress) {
   // 1. Verifică alegerea
   const electionResult = await query(
-    `SELECT id, status, blockchain_id FROM elections
+    `SELECT id, title, status, blockchain_id FROM elections
      WHERE id = $1 AND status = 'active'
      AND start_time <= NOW() AND end_time >= NOW()`,
     [electionId]
@@ -125,8 +125,7 @@ async function castVote({ electionId, candidateId }, userId, ipAddress) {
     logger.warn("Blockchain castVote eșuat", { error: bcErr.message, voteHash });
   }
 
-  // 9. Trimite email de confirmare (async)// Trimite email de confirmare
-  // Trimite email de confirmare (async - nu blochează votarea)
+  // 9. Trimite email de confirmare (async - nu blochează votarea)
   query(`SELECT name, email FROM users WHERE id = $1`, [userId])
     .then(userResult => {
       if (userResult.rowCount > 0) {
