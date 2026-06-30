@@ -649,7 +649,7 @@ export default function App() {
                   ℹ Emailul trebuie să fie <strong>@vote.ro</strong>. Alegătorul se va putea autentifica cu credențialele setate.
                 </div>
                 <Field label="Nume complet *" value={voterForm.name} onChange={v=>setVoterForm(f=>({...f,name:v}))} placeholder="Ion Popescu"/>
-                <Field label="Email (@vote.ro) *" value={voterForm.email} onChange={v=>setVoterForm(f=>({...f,email:v}))} placeholder="ion.popescu@vote.ro" valid={voterForm.email.includes("@")&&voterForm.email.includes(".")} invalid={voterForm.email&&(!voterForm.email.includes("@")||!voterForm.email.includes("."))}/>
+                <Field label="Email*" value={voterForm.email} onChange={v=>setVoterForm(f=>({...f,email:v}))} placeholder="ion.popescu@vote.ro" valid={voterForm.email.includes("@")&&voterForm.email.includes(".")} invalid={voterForm.email&&(!voterForm.email.includes("@")||!voterForm.email.includes("."))}/>
                 <CNPField value={voterForm.cnp} onChange={v=>setVoterForm(f=>({...f,cnp:v}))}/>
                 <Field label="Parolă inițială *" type="password" value={voterForm.password} onChange={v=>setVoterForm(f=>({...f,password:v}))} placeholder="min. 6 caractere"/>
                 {voterError && <ErrBox>{voterError}</ErrBox>}
