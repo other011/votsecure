@@ -606,9 +606,18 @@ export default function App() {
                           <div style={{color:"#475569",fontSize:11}}>{u.email}</div>
                         </div>
                       </div>
-                      <div style={{textAlign:"right"}}>
-                        <div style={{color:"#64748b",fontSize:11}}>{u.last_login ? new Date(u.last_login).toLocaleDateString("ro-RO") : "Niciodată autentificat"}</div>
-                        <div style={{color:"#334155",fontSize:10,marginTop:2}}>din {new Date(u.created_at).toLocaleDateString("ro-RO")}</div>
+                      <div style={{display:"flex",alignItems:"center",gap:14}}>
+                        <div style={{textAlign:"right"}}>
+                          <div style={{color:"#64748b",fontSize:11}}>{u.last_login ? new Date(u.last_login).toLocaleDateString("ro-RO") : "Niciodată autentificat"}</div>
+                          <div style={{color:"#334155",fontSize:10,marginTop:2}}>din {new Date(u.created_at).toLocaleDateString("ro-RO")}</div>
+                        </div>
+                        <button
+                          onClick={()=>handleDeleteVoter(u.id, u.name)}
+                          style={{background:"transparent",border:"1px solid #7f1d1d",color:"#ef4444",borderRadius:6,padding:"5px 9px",fontSize:11,cursor:"pointer",flexShrink:0}}
+                          title="Șterge alegătorul"
+                        >
+                          🗑
+                        </button>
                       </div>
                     </div>
                   ))}
