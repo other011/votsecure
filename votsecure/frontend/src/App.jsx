@@ -222,6 +222,22 @@ export default function App() {
     } catch (e) { notify(e.message, "error"); }
   }
 
+  async function handleDeleteVoter(id, name) {
+    const ok = window.confirm(
+      `Sigur doriți să ștergeți alegătorul "${name}"?\n\n` +
+      `Contul va fi șters definitiv. Dacă a votat în alegeri active sau închise ` +
+      `(ne-arhivate), ștergerea va fi blocată — arhivați mai întâi acele alegeri.`
+    );
+    if (!ok) return;
+    try {
+      const d = await api("DELETE", `/admin/voters/${id}`);
+      notify(d.message || "Alegătorul a fost șters.", "success");
+      loadAdminData();
+    } catch (e) {
+      notify(e.message, "error");
+    }
+  }
+
   return (
     <div style={S.root}>
       <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
